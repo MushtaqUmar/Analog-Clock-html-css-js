@@ -16,8 +16,14 @@ body{
     justify-content: center;  /*horizontally*/
     align-items: center;  /*verticaly : works when we give height to body : below*/ 
     background-color: #03045e;
+    
+    position: relative; /* for h3 below */
 }
-
+/* bring 'by: umar' at top */
+h3{
+    position: absolute;
+    top: 2rem;
+}
 
 .container{  
     position: relative;   /* to style numbering of clock inside (i.e., its child element) */
