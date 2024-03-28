@@ -1,0 +1,102 @@
+*{
+    /* remove default margin and padding of all elements  */
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;  /*Include padding and border in the element's total width and height*/
+    font-family: sans-serif;
+    color: #ffffff; /* font color of all elements , bcz we use dark background*/
+}
+
+body{
+    min-height: 100vh;
+
+    /* Make it in the center  */
+    display: flex;
+    justify-content: center;  /*horizontally*/
+    align-items: center;  /*verticaly : works when we give height to body : below*/ 
+    background-color: #03045e;
+}
+
+
+.container{  
+    position: relative;   /* to style numbering of clock inside (i.e., its child element) */
+          /*  ^^ Relative to its normal position  */
+}
+
+.clock{
+    /* To make clock circular with background and border  */
+    width: 300px;
+    height: 300px;  /* need square to make it circle*/
+    border-radius:50% ; /* to make it circle*/
+    background-color: #023e8a;
+    border: 1px solid #302c2c;
+
+    box-shadow: 0 0 20px rgba(0,0,0, 0.8); 
+            /*  x y blur  opacity  */
+
+
+    /* To make its childs like center dot & handles of clock in center. (center dot created using ->  : below as clock:before which creates its psudo-element as its first child element */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+/*  center point  */
+.clock::before{   /*::before -> ::before creates a pseudo-element that is the 'first child' of the selected element. It is often used to add cosmetic content to an element with the content property. It is inline by default.*/
+    content: ''; /* nothing as content*/
+    position: absolute;   
+    /* We need circle in center  (centered by making display:flex the parent i.,e .clock ) */
+    width: 8px;
+    height: 8px;  /* square created */
+    border-radius: 50%;  /* to make the square as circle*/
+
+    background-color: #fff;
+    z-index: 2;  /* To make circle on top as other like handles have  z-index by default = 1 */
+}
+
+/* Style numbering of clock  */
+.clock span{
+    position: absolute;       /* positioned relative to the nearest positioned ancestor (non-static else: used body element as parent if not having such ancestor ) */
+    
+    /* We need rotation of numbers- we have 360 deg circle, so each 'number' takes 30 deg from another as we have 12 numbers  */
+    transform: rotate( calc(30deg * var(--i)) ); /*--i : global variable used inside html elements :see there*/
+                /* i use: 30 deg, 60 deg, 90 deg ..... 360 deg  */
+
+    inset: 12px; /*inset CSS property is a shorthand that corresponds to the top, right, bottom, and/or left properties.*/
+    /* Remember wrt to ancestor clock bcz its position: absolute;; */
+
+    text-align: center;  /* put them inside circle (we can do it manually by adjusting 'inset' value above like == 47px */ 
+}
+
+/* Numbers except 12 are little bit at angle (TEDHE in clockwise) */
+.clock span b{
+    transform: rotate( calc(-30deg * var(--i) ));  
+      /*  SEEDHA DIKHE  :: bcz we need them in anti-clockwise direction to rotate*/
+      display: inline-block;
+            /* bcz <b> is block element and thus abov property not gets applied  */
+    font-size: 20px;
+}
+
+
+
+/* CSS to 3 handles with */
+.handle i{
+    position: absolute;  /* to position center (already done above .clock styling)) -> wrt to its top-next ancestor (non static) which is , .container */
+
+    height:var(--hyt); 
+    width: 0.2rem;   /* we can use px , but responsiveness is good */
+    background-color: var(--clr);  /*different colors to 3 handles:  in html inline css applied */
+
+    border-radius: 0.2rem;  /* little bit rounded */
+}
+
+/* till now handles have height towards 6 from center point (bottom) but we need to make them direct/start point from upwards i.e., from 12 (in clock)  */
+.handle{
+    /* makes handles(<i>) start from 12 in clock (and perfectly from center of .handle which intern is in center of  clock)*/
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;    
+}
+
